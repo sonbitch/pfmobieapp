@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대통령 닮은상 테스트(남자)</title>
+</head>
+<style>
+    body {
+  font-family: sans-serif;
+  background-color: #eeeeee;
+    }
+    
+    .title_1 {
+        text-align: center;
+    }
+    
+    .title_2 {
+        text-align: center;
+    }
+    
+    .upload_2 {
+        width: 180;
+        height: 180;
+    }
+
+    .file-upload {
+    background-color: #ffffff;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 300;
+    height: 300;
+    }
+
+    .file-upload-btn {
+    width: 100%;
+    margin: 0;
+    color: #fff;
+    background: #1FB264;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    border-bottom: 4px solid #15824B;
+    transition: all .2s ease;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .file-upload-btn:hover {
+    background: #1AA059;
+    color: #ffffff;
+    transition: all .2s ease;
+    cursor: pointer;
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .file-upload-btn:active {
+    border: 0;
+    transition: all .2s ease;
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .file-upload-content {
+    display: none;
+    text-align: center;
+    width: 300;
+    height: 300;
+    }
+
+    .file-upload-input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    height: 300px;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+    right: 2px;
+    }
+
+    .image-upload-wrap {
+    margin-top: 20px;
+    border: 4px dashed #1FB264;
+    position: relative;
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .image-dropping,
+    .image-upload-wrap:hover {
+    background-color: #1FB264;
+    border: 4px dashed #ffffff;
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    }
+
+    .image-title-wrap {
+    padding: 0 15px 15px 15px;
+    color: #222
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .drag-text {
+    text-align: center;
+    }
+
+    .drag-text h3 {
+    font-weight: 100;
+    text-transform: uppercase;
+    color: #15824B;
+    padding: 60px 0;
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .file-upload-image {
+    max-height: 300px;
+    max-width: 300px;
+    margin: auto;
+    padding: 20px;
+    width: 300;
+    height: 300;
+    text-align: center;
+    }
+
+    .remove-image {
+    width: 200px;
+    margin: 0;
+    color: #fff;
+    background: #cd4535;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    border-bottom: 4px solid #b02818;
+    transition: all .2s ease;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    }
+
+    .remove-image:hover {
+    background: #c13b2a;
+    color: #ffffff;
+    transition: all .2s ease;
+    cursor: pointer;
+    }
+
+    .remove-image:active {
+    border: 0;
+    transition: all .2s ease;
+    }
+</style>
+<body>
+    <div class="title_1">
+        <h1>대통령 닮은상 테스트(남자)</br>모바일</h1>
+    </div>
+    <div class="title_2">
+        <h2>당신은 3명의 대통령중 누굴 닮았나요?</h2>
+    </div>
+    <!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_inline_share_toolbox"></div>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <div class="file-upload">
+    <div class="image-upload-wrap">
+        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+        <div class="drag-text">
+            <img src="upload_1.png" class="upload_2">
+        <h3>이미지를 업로드 하세요</h3>
+        </div>
+    </div>
+    <div class="file-upload-content">
+        <img class="file-upload-image" id="face-image" src="#" alt="your image" />
+        <p class="result-message"></p>
+        <div id="label-container"></div>
+        <div class="image-title-wrap">
+        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+        </div>
+    </div>
+    </div>
+    <script>
+        alert(" 0.01은 1퍼입니다!! 예) 0.17 = 17%");
+    </script>
+    <div id="webcam-container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <script type="text/javascript">
+        // More API functions here:
+        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+        // the link to your model provided by Teachable Machine export panel
+        const URL = "https://teachablemachine.withgoogle.com/models/IXh1kJsXG/";
+
+        let model, webcam, labelContainer, maxPredictions;
+
+        // Load the image model and setup the webcam
+        async function init() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            // load the model and metadata
+            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+            // or files from your local hard drive
+            // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+            }
+        }
+        // run the webcam image through the image model
+        async function predict() {
+            // predict can take in an image, video or canvas html element
+            var image = document.getElementById("face-image")
+            const prediction = await model.predict(image, false);
+            prediction.sort((a, b) => parseFloat(b.probability) - parseFloat(a.probability));
+            var resultMessege;
+            switch(prediction[0].className) {
+              case "김정은":
+                resultMessege = "북한의 김정은"
+                break;
+              case "윤석열":
+                resultMessege = "한국의 윤석열"
+                break;
+              case "바이든":
+                resultMessege = "미국의 바이든"
+                break;
+             default:
+                resultMessege = "밑에 결과가 있습니다"
+            }
+            $('.result-message').html(resultMessege);
+            for (let i = 0; i < maxPredictions; i++) {
+                const classPrediction =
+                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+                labelContainer.childNodes[i].innerHTML = classPrediction;
+            }
+        }
+    </script>
+    <script>
+        function readURL(input) {
+    if (input.files && input.files[0]) {
+
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+        $('.image-upload-wrap').hide();
+
+        $('.file-upload-image').attr('src', e.target.result);
+        $('.file-upload-content').show();
+
+        $('.image-title').html(input.files[0].name);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+        init().then(function(){
+            console.log("대통령 예측 시작");
+            predict();
+        });
+    } else {
+        removeUpload();
+    }
+    }
+
+    function removeUpload() {
+    $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+    $('.file-upload-content').hide();
+    $('.image-upload-wrap').show();
+    }
+    $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+    });
+
+    </script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools --> <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-62e7802080e6248c"></script>
+</body>
+</html>
